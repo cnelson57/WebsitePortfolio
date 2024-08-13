@@ -1,9 +1,9 @@
-name: "my-website"
+name: "Cache Nelson"
 output_dir: docs
 navbar:
-  title: "My Website"
+  title: "Cache Nelson"
   left:
     - text: "Home"
       href: index.html
-    - text: "About"
+    - text: "Analyses"
       href: about.html
