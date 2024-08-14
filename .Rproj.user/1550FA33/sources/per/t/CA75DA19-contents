@@ -1,9 +1,0 @@
-name: "Cache Nelson"
-output_dir: docs
-navbar:
-  title: "Cache Nelson"
-  left:
-    - text: "Home"
-      href: index.html
-    - text: "Analyses"
-      href: about.html

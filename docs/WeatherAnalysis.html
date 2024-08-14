@@ -10,8 +10,9 @@
 
 
 
+<meta name="date" content="2024-01-14" />
 
-<title>Cache Nelson</title>
+<title>Weather Analysis</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -30,6 +31,7 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
@@ -216,6 +218,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -259,7 +264,7 @@ $(document).ready(function () {
       <a href="CarSell.html">Selling a Car</a>
     </li>
     <li>
-      <a href="WeatherAnalysis.html">Predicting Weather</a>
+      <a href="WeatherAnaylsis.html">Predicting Weather</a>
     </li>
     <li>
       <a href="AgeOfPlanes.html">Aging Planes</a>
@@ -276,17 +281,193 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Cache Nelson</h1>
+
+<h1 class="title toc-ignore">Weather Analysis</h1>
+<h4 class="date">2024-01-14</h4>
 
 </div>
 
 
-<p>I am Cache Nelson, a statistician driven by a desire to understand
-and gain insight into</p>
-<p>prevalent issues in education and finance.</p>
-<p><img align = "right" src="images/DSC_0805-01.jpg" width="319" /></p>
+<div id="prediction" class="section level1">
+<h1>Prediction</h1>
+<p>Using historical weather data from Rexburg, a linear model was
+created to predict the daily high temperature on Jan. 15, 2024. The
+created model predicted that the high on said day would be 17.46
+degrees. Below is a table of the confidence interval for the High
+Temperature on that day, with us being 95% confident that the High
+temperature will be within that interval.</p>
+<p>Below shows a complete graph of the data, as well as the predicted
+temperature for 1/15/24.</p>
+<pre class="r"><code>pander(predict(lm_2, data.frame(Metric = -5.387), interval = &quot;prediction&quot;))</code></pre>
+<table style="width:33%;">
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">fit</th>
+<th align="center">lwr</th>
+<th align="center">upr</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">17.46</td>
+<td align="center">7.939</td>
+<td align="center">26.99</td>
+</tr>
+</tbody>
+</table>
+<p><img src="WeatherAnalysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="background" class="section level1">
+<h1>Background</h1>
+<p>Data was collected from <a
+href="https://www.timeanddate.com/weather/@5605242/historic?month=1&amp;year=2022">this
+website</a>. The data used was collected from 2019-2024, using the 2-6
+days prior to the date in question. The 6 hour assessments were used
+(average wind speed and direction over 6 hour spans every day).
+Barometric pressure taken was the lowest pressure on that day, and
+humidity being the highest on that day. The wind directions are the
+distance from the SW direction on 16-point compass (SW being 0, SSW
+being 1, NE being 8, etc.), due to southwestern winds being known to
+cause more warmth. Sky readings are 0 and 1, with 0 being clear and 1
+being cloudy.</p>
+<p>The Complex X Variable was calculated as follows: <span
+class="math inline">\(\frac{\text{High}}{15} + \text{Low} +
+\frac{Max(\text{Wind Direction}) * Max(\text{Wind
+Speed)}}{\text{Barometric Pressure} *
+\frac{\text{humidity}}{50}}\)</span></p>
+</div>
+<div id="the-model" class="section level1">
+<h1>The Model</h1>
+<p>The true regression model for the situation is given by</p>
+<p><span class="math inline">\(\underbrace{Y_i}_{\text{Actual High
+Temperature}} = \beta_0 + \beta_1 \underbrace{X_i}_{Complex Variable} +
+\epsilon_i \text{    where   } \epsilon_i \sim N(0,
+\sigma^2)\)</span></p>
+</div>
+<div id="hypotheses" class="section level1">
+<h1>Hypotheses</h1>
+<p>A test will now be performed to examine if there is a significant
+relationship between the complex x variable and the high temperature on
+a day in January. A significance level of <span
+class="math inline">\(\alpha = 0.05\)</span> will be used for this
+test.</p>
+<p><span class="math inline">\(H_0: \beta_1 = 0\)</span> <span
+class="math inline">\(H_a: \beta_1 \neq 0\)</span></p>
+<p>Because the explanatory variable is somewhat arbitrary, <span
+class="math inline">\(\beta_0\)</span> will not be considered in these
+tests.</p>
+</div>
+<div id="test-results" class="section level1">
+<h1>Test Results</h1>
+<p>The table below shows the results of the test.</p>
+<table style="width:89%;">
+<colgroup>
+<col width="25%" />
+<col width="15%" />
+<col width="18%" />
+<col width="13%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Estimate</th>
+<th align="center">Std. Error</th>
+<th align="center">t value</th>
+<th align="center">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>(Intercept)</strong></td>
+<td align="center">19.76</td>
+<td align="center">1.623</td>
+<td align="center">12.18</td>
+<td align="center">1.055e-12</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Metric</strong></td>
+<td align="center">0.4264</td>
+<td align="center">0.07649</td>
+<td align="center">5.574</td>
+<td align="center">5.79e-06</td>
+</tr>
+</tbody>
+</table>
+<table style="width:86%;">
+<caption>Fitting linear model: High ~ Metric</caption>
+<colgroup>
+<col width="20%" />
+<col width="30%" />
+<col width="11%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Observations</th>
+<th align="center">Residual Std. Error</th>
+<th align="center"><span class="math inline">\(R^2\)</span></th>
+<th align="center">Adjusted <span
+class="math inline">\(R^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">30</td>
+<td align="center">4.2</td>
+<td align="center">0.526</td>
+<td align="center">0.5091</td>
+</tr>
+</tbody>
+</table>
+<p>As can be seen, the p-value for the slope of our metric is extremely
+low. It is much lower, in fact than our significance level of 0.05. This
+suggests that there is a statistically significant relationship between
+our complex x variable and the high temperature of a day in January.</p>
+</div>
+<div id="diagnostics" class="section level1">
+<h1>Diagnostics</h1>
+<p>To check the validity of the results, we examine several diagnostic
+plots:</p>
+<p><img src="WeatherAnalysis_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>As can be seen above, there is no apparent pattern in the Residuals
+vs. fitted and the data appears to be somewhat linear, although the
+averages look somewhat suspect. For our purposes, we will say that the
+assumptions of a linear relationship an constant variance are met.</p>
+<p>Our Q-Q Plot also is fairly linear, so we say that the assumption of
+normally distributed errors is met. Finally, we will assume that
+x-values are measured without error.</p>
+</div>
+<div id="fitted-model" class="section level1">
+<h1>Fitted Model</h1>
+<p>Below shows the equation for the fitted regression model.</p>
+<p><span class="math inline">\(\underbrace{\hat{Y}_i}_{\text{ Predicted
+High Temperature}} = 19.76 + .4264 \underbrace{X_i}_{Complex
+Variable}\)</span></p>
+<p>Based on the fitted model, a 1 unit change in our complex x variable
+results in a change of .4264 degrees Fahrenheit on the average High
+Temperature.</p>
+<p>An <span class="math inline">\(x\)</span> value of -5.387 was used to
+predict the temperature on 1/15, as -5.387 was the x-value of the
+calculations of data from two days prior. We would then compute the
+predicted temperature as:</p>
+<p><span class="math inline">\(19.76 + .4264 * (-5.387) =
+17.46\)</span>.</p>
+</div>
 
 
 
@@ -321,6 +502,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

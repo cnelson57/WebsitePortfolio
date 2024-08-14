@@ -1,0 +1,51 @@
+---
+title: "Age of Planes"
+output: 
+  html_document:
+    code_folding: hide
+    theme: cerulean
+editor: visual
+---
+
+```{r, warning = FALSE, message = FALSE}
+library(nycflights13)
+library(tidyverse)
+
+df <- left_join(flights, planes, by = "tailnum", suffix = c("_flight", "_plane"))
+
+df1 <- df %>% mutate(age = year_flight - year_plane)
+df2 <- df1 %>% 
+  mutate(age_group = case_when(age <= 10 ~ "0-10", 
+         age > 10 & age <=20 ~ "11-20",
+         age > 20 & age <= 30 ~ "21-30", 
+         age > 30 ~ ">30"))
+
+df3 <- df2 %>% drop_na(dep_delay, age_group)
+```
+
+```{r}
+ggplot(df3, aes(x = reorder(age_group, dep_delay), y = dep_delay)) +
+  geom_boxplot() + coord_cartesian(ylim = c(-5, 25)) + labs(x = "Age of Plane", y = "Departure Delay (min.)", title = "Departure Delay of NYC Flights")
+```
+
+Its seems like as planes get older, the median departure delay goes down. The 75% percentile also goes down as the planes get older. Interesting as well is that the interquartile range goes down, meaning the older planes are more consistent in delay times.
+
+```{r, warning = FALSE}
+df4 <- left_join(df3, airlines, by = "carrier")
+
+ggplot(df4, aes(x = reorder(name, age), y = age)) + 
+  geom_boxplot() + coord_flip() + theme_bw() + 
+  labs(x = "Airline", y = "Plane Age")
+```
+
+It is difficult to really see a pattern here, but it is also difficult to classify or discern differences between airlines. Perhaps if another variable was utilized, we might find something more meaningful.
+
+```{r, warning = FALSE}
+ggplot(df4, aes(x = age, y = seats)) + 
+  geom_point(aes(color = as.factor(engines))) + 
+  geom_segment(aes(x = 0, xend = 60, y = 150, yend = 150), lty = 2, color = "skyblue") + 
+  geom_segment(aes(x = 30, xend = 30, y = 0, yend = 450), color = "skyblue", lty = 2) +
+  labs(x = "Age of Plane (as of 2013)", y = "# of Seats on Plane", title =  "NYC Flight Age vs. Seats Correlation") + theme_bw() + guides(color = guide_legend(title = "Number of Engines"))
+```
+
+It appears that planes with a higher capacity (specifically greater than 150) only became commonplace about 30 years before 2013. Planes older than that had a capacity of 150 or less. In addition, we see that planes older than 30 more frequently had 1 engine but also had a 4 engine plane present, being the oldest. Two engine planes became much more frequent about 30 years before 2013 also. This is an interesting relationship. Was there new regulations or something significant that happened around 1983 that caused a change in the design of planes?

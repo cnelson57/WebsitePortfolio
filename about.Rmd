@@ -1,5 +1,8 @@
 ---
-title: "About This Website"
+title: "My Analyses"
+output:
+    html_document:
+      theme: cerulean
 ---
 
-More about this website.
+Here you will find various analyses covering various topics and disciplines, generally using tools such as dplyr, tidyr, and ggplot to perform hypothesis tests and provide insightful visuals to investigate the underlying cause of observed phenomena.Some were created using RMarkdown others Quarto files.

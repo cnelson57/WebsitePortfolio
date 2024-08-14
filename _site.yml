@@ -6,4 +6,12 @@ navbar:
     - text: "Home"
       href: index.html
     - text: "Analyses"
-      href: about.html
+      menu:
+        - text: "Modern Presidental Economies"
+          href: PresidentialEconomies.html
+        - text: "Selling a Car"
+          href: CarSell.html
+        - text: "Predicting Weather"
+          href: WeatherAnalysis.html
+        - text: "Aging Planes"
+          href: AgeOfPlanes.html

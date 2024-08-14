@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Presidential Economies</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Cache Nelson</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PresidentialEconomies.html">Modern Presidental Economies</a>
+    </li>
+    <li>
+      <a href="CarSell.html">Selling a Car</a>
+    </li>
+    <li>
+      <a href="WeatherAnaylsis.html">Predicting Weather</a>
+    </li>
+    <li>
+      <a href="AgeOfPlanes.html">Aging Planes</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Presidential Economies</h1>
+
+</div>
+
+
+<pre class="r"><code>knitr::opts_chunk$set(fig.width=20, fig.height = 14)</code></pre>
+<div id="economic-strength-of-presidencies" class="section level2">
+<h2>Economic Strength of Presidencies</h2>
+<p>The following is an economic analysis using BEA (Bureau of Economic
+Analysis) data to examine how the economy performed during terms of
+modern U.S. presidents. The focus is upon Gross Domestic Product (GDP)
+which is considered a good measure of the productivity of an economy.
+Growth in GDP is the standard and 1 % or less increase in GDP is
+considered to be a poor performance.</p>
+<pre class="r"><code>library(tidyverse)
+library(sf)
+library(USAboundaries)
+library(geofacet)
+library(ggrepel)
+
+df &lt;- read_csv(&quot;~/WebsitePortfolio/projdata.csv&quot;)
+
+df2 &lt;- df %&gt;% select(-`2015`)
+
+year_cols &lt;- df2 %&gt;% select(matches(&quot;^(19|20)&quot;))
+col_names &lt;- names(year_cols)
+
+
+df2[col_names] &lt;- lapply(df2[col_names], as.numeric)
+
+df3 &lt;- pivot_longer(df2, cols = matches(&quot;^(19|20)&quot;), names_to = &quot;Year&quot;)
+
+
+df4 &lt;- df3 %&gt;% mutate(President = case_when(Year &lt;= 2000 ~ &quot;Clinton&quot;, Year &gt;= 2001 &amp; Year &lt;= 2008 ~ &quot;Bush&quot;, Year &gt;= 2009 &amp; Year &lt;= 2016 ~ &quot;Obama&quot;, Year &gt;= 2017 &amp; Year &lt; 2021  ~ &quot;Trump&quot;, Year &gt;= 2021 ~ &quot;Biden&quot;))
+
+total_gdp &lt;- df4 %&gt;% filter(Description == &quot;All industry total&quot;) %&gt;% group_by(Year, President) %&gt;% summarise(TotalGDP = sum(value, na.rm = TRUE)*1000000)
+
+inflation_rate = c(.023, .039, .061, .095, .123, .139, .162, .189, .213, .245, .274, .312, .308, .3096, .3416, .3626, .3776, .3892, .4102, .4326, .4506, .4626, .5096, .5896)
+
+total_gdp2 &lt;- cbind(total_gdp, inflation_rate = inflation_rate)
+
+total_gdp3 &lt;- total_gdp2 %&gt;% mutate(inflation_adjusted = as.numeric(TotalGDP*(1-inflation_rate), Year = as.numeric(Year)))
+
+avg_gdp_growth &lt;- total_gdp3 %&gt;% group_by(President) %&gt;% arrange(Year) %&gt;% summarise(first_gdp = first(inflation_adjusted), last_gdp = last(inflation_adjusted), first_year = as.numeric(first(Year)), last_year = as.numeric(last(Year))) %&gt;% mutate(gdp_diff = last_gdp - first_gdp, year_diff = last_year - first_year)
+
+avg_gdp_growth2 &lt;- avg_gdp_growth %&gt;% mutate(gdp_growth = gdp_diff/year_diff)</code></pre>
+<p>When examining the chart below, we see that presidents prior to the
+global pandemic performed reasonably well, all have a GDP greater than
+1% when adjusting for inflation. President Clinton performed the best,
+with over 3.5% GDP growth over his second term. President Trump and
+President Biden appear to struggle because of the global pandemic, where
+President Trump was trending upward until that point. The poor
+performance of the first year of the Biden administration is likely
+linked to high inflation, causing a much lower inflation adjusted GDP.
+Overall, we see a trend of a few years of prosperity and downturn, which
+is considered to be a part of the economic cycle. It is difficult to
+experience constant growth, and so we see downturns in every modern
+presidency.</p>
+<pre class="r"><code>ggplot(total_gdp3, aes(x = as.numeric(Year), y = inflation_adjusted, group = 1, color = President)) +
+geom_line() +
+geom_segment(x = 1997, xend = 2001, y = total_gdp3$inflation_adjusted[[1]], yend = total_gdp3$inflation_adjusted[[5]], aes(color = &quot;Clinton&quot;), size = 1, lty = 2, alpha = 0.02) + 
+  geom_segment(x = 2001, xend = 2009, y = total_gdp3$inflation_adjusted[[5]], yend = total_gdp3$inflation_adjusted[[13]], aes(color = &quot;Bush&quot;), size = 1, lty = 2, alpha = 0.02) + 
+  geom_segment(x = 2009, xend = 2017, y = total_gdp3$inflation_adjusted[[13]], yend = total_gdp3$inflation_adjusted[[19]], aes(color = &quot;Obama&quot;), size = 1, lty = 2, alpha = 0.02) + 
+  geom_segment(x = 2017, xend = 2021, y = total_gdp3$inflation_adjusted[[19]], yend = total_gdp3$inflation_adjusted[[23]], aes(color = &quot;Trump&quot;), size = 1, lty = 2, alpha = 0.02) + 
+  geom_text_repel(data = avg_gdp_growth2, mapping = aes(x = first_year, y = first_gdp, label = paste(&quot;Average GDP Growth: &quot;, round(gdp_growth/first_gdp * 100, 2), &quot;%&quot;)), alpha = 0.5) + 
+  scale_x_continuous(n.breaks = 5) + scale_y_continuous(breaks = c(8000000000000, 16000000000000, 24000000000000), labels = c(&quot;8 Trillion&quot;, &quot;16 Trillion&quot;, &quot;24 Trillion&quot;)) + labs(y = &quot;Inflation Adjusted GDP&quot;, x = &quot;Year&quot;, title = &quot;GDP Growth of Modern Presidents&quot;) + 
+  theme_bw()</code></pre>
+<p><img src="PresidentialEconomies_files/figure-html/unnamed-chunk-3-1.png" width="1920" /></p>
+</div>
+<div id="presidents-and-state-favoritism" class="section level2">
+<h2>Presidents and State Favoritism</h2>
+<p>On a federal level, it is difficult to say what kind of effect
+political party has on the country in modern times. We will examine the
+economy on a state level, where perhaps Presidents show some level of
+favoritism towards their stronghold states. For example, perhaps
+President Obama pushed economic policy that strengthens states such as
+California and New York, where support is strong. Or perhaps President
+Bush pushed policies that would help his home state of Texas.</p>
+<pre class="r"><code>usshape &lt;- us_states()
+
+state_gdp &lt;- df3 %&gt;% filter(Description == &quot;All industry total&quot;)
+
+state_gdp2 &lt;- state_gdp %&gt;% left_join(usshape, join_by(GeoName == name))
+
+state_gdp3 &lt;- state_gdp2 %&gt;% mutate(decade = case_when(Year &lt; 2000 ~ 1990, Year &gt;= 2000 &amp; Year &lt; 2010 ~ 2000, Year &gt;= 2010 &amp; Year &lt; 2020 ~ 2010, Year &gt;= 2020 ~ 2020))
+
+
+
+state_gdp4 &lt;- state_gdp3 %&gt;% mutate(election_year = case_when(Year &gt;= 1996 &amp; Year &lt; 2000 ~ 1996, 
+                                                              Year &gt;= 2000 &amp; Year &lt; 2004 ~ 2000, 
+                                                              Year &gt;= 2004 &amp; Year &lt; 2008 ~ 2004, 
+                                                              Year &gt;= 2008 &amp; Year &lt; 2012 ~ 2008, 
+                                                              Year &gt;= 2012 &amp; Year &lt; 2016 ~ 2012, 
+                                                              Year &gt;= 2016 &amp; Year &lt; 2020 ~ 2016, 
+                                                              Year &gt;= 2020 ~ 2020))
+
+state_gdp5 &lt;- state_gdp4 %&gt;% mutate(ir = case_when(Year == 1997 ~ .023, Year == 1998 ~ .039, Year == 1998  ~.061, Year == 1999 ~.095, Year == 2000 ~.123, Year == 2001 ~.139, Year == 2002 ~ .162, Year == 2003 ~.189, Year == 2004 ~.213, Year == 2005 ~ .245, Year == 2006 ~ .274, Year == 2007 ~.312, Year == 2008 ~ -.308, Year == 2009 ~.3096, Year == 2010 ~.3416, Year == 2011 ~.3626, Year == 2012 ~.3776,Year == 2013 ~ .3892, Year == 2014 ~ .4102, Year == 2017 ~ .4326, Year == 2018 ~ .4506, Year == 2019 ~.4626, Year == 2020 ~.5096, Year == 2021 ~.5896), President = case_when(Year &lt; 2000 ~ &quot;Clinton&quot;, Year &gt;= 2000 &amp; Year &lt; 2008 ~ &quot;Bush&quot;, Year &gt;= 2008 &amp; Year &lt; 2016 ~ &quot;Obama&quot;, Year &gt;= 2016 ~ &quot;Trump&quot;), 
+                                    president_party = case_when(President == &quot;Clinton&quot; | President == &quot;Obama&quot; ~ &quot;Democrat&quot;, President == &quot;Bush&quot; | President == &quot;Trump&quot; ~ &quot;Republican&quot;)
+)
+
+population_data &lt;- read_csv(&quot;~/Statistics-Notebook-master/apportionment.csv&quot;)
+
+state_gdp_final &lt;- state_gdp5 %&gt;% left_join(population_data, join_by(decade == Year, GeoName == Name)) %&gt;% mutate(ia_gdp = value / `Resident Population` * (1-ir), Year = as.numeric(Year))
+
+pres_data &lt;- read_csv(&quot;~/Statistics-Notebook-master/1976-2020-president.csv&quot;)
+
+state_winner &lt;- pres_data %&gt;% group_by(state, year) %&gt;% slice_max(candidatevotes)
+
+sp &lt;- left_join(state_gdp_final, state_winner, join_by(election_year == year, state_abbr == state_po)) %&gt;% filter(GeoName != &quot;District of Columbia&quot;)
+
+# Create the plot
+
+ggplot(sp, aes(x = Year, y = ia_gdp * 1000000, group = 1, color = interaction(president_party, party_simplified))) + 
+  geom_line() + 
+  facet_geo(~GeoName, grid = us_state_without_DC_grid2) + scale_x_continuous(breaks = c(1997, 2007, 2017), labels = c(&quot;&#39;97&quot;, &quot;&#39;07&quot;,&quot;&#39;17&quot;)) + 
+  labs(y = &quot;GDP Per Capita&quot;, x = &quot;Year&quot;, title = &quot;GDP Growth by Political Party&quot;, color = &quot;Candidate and State Vote&quot;) + scale_color_manual(labels = c(&quot;Democratic President, Voted Democratic&quot;, &quot;Republican President, Voted Democratic&quot;, &quot;Democratic President, Voted Republican&quot;, &quot;Republican President&quot;, &quot;Voted Republican&quot;), values = c(&quot;blue&quot;, &quot;orange&quot;, &quot;purple&quot;, &quot;red&quot;)) + 
+  theme(legend.position = c(0.5, 0.95), 
+        panel.background = element_rect(fill = &quot;white&quot;), 
+        panel.grid.major = element_line(color = &quot;gray&quot;))</code></pre>
+<p><img src="PresidentialEconomies_files/figure-html/unnamed-chunk-4-1.png" width="1920" /></p>
+<p>We see in the chart that states such as Wyoming, Texas, Alaska, and
+North Dakota all experienced a great deal of growth in GDP from
+2000-2008, when they voted in support of the republican president. They
+all experience an almost meteoric rise during this time. While we see
+this pattern in states such as these, most other states appear to follow
+a similar trend. Likely, what we are seeing is the result of certain
+industries being affected. Most likely, the energy sector, including the
+drilling for natural gas and oil.</p>
+<p>From personal experience, I remember growing up in Wyoming during the
+early 2000’s where expansion was rapid and people were coming from
+various places to get a piece of the natural gas pie. The recession
+effectively brought an end to this boom, and that mirrors the trend we
+see in the state of Wyoming in this chart. I suppose it is the same for
+Texas and North Dakota, who also rely on this industry as a significant
+part of their economy. Democratic presidents tend to lean towards
+regulations that protect the environment and as a result make it more
+difficult for energy companies to mine and obtain resources. This is
+likely the cause of the downturn that we see in these select states.</p>
+</div>
+<div id="effect-on-industries" class="section level2">
+<h2>Effect on Industries</h2>
+<p>To inspect the effect that Presidents have had on major industries in
+the United States, we will inspect the behavior of Gross Domestic
+Product of these top industries across presidencies.</p>
+<p>The chart below shows a strong performance from Clinton across the
+board, which is likely because there were certain sectors that weren’t
+as developed then, and so more capital was in fewer sectors of the
+economy. The performance from the Obama administration on the other
+hand, is poor across the board.</p>
+<pre class="r"><code>by_ind &lt;- df4 %&gt;% filter(Description != &quot;All industry total&quot;) %&gt;% group_by(Year, President, Description) %&gt;% summarise(IndGDP = sum(value, na.rm = TRUE)*1000000)
+
+by_ind2 &lt;- by_ind %&gt;% mutate(ir = case_when(Year == 1997 ~ .023, Year == 1998 ~ .039, Year == 1998  ~.061, Year == 1999 ~.095, Year == 2000 ~.123, Year == 2001 ~.139, Year == 2002 ~ .162, Year == 2003 ~.189, Year == 2004 ~.213, Year == 2005 ~ .245, Year == 2006 ~ .274, Year == 2007 ~.312, Year == 2008 ~ -.308, Year == 2009 ~.3096, Year == 2010 ~.3416, Year == 2011 ~.3626, Year == 2012 ~.3776,Year == 2013 ~ .3892, Year == 2014 ~ .4102, Year == 2017 ~ .4326, Year == 2018 ~ .4506, Year == 2019 ~.4626, Year == 2020 ~.5096, Year == 2021 ~.5896), decade = case_when(Year &lt; 2000 ~ 1990, Year &gt;= 2000 &amp; Year &lt; 2010 ~ 2000, Year &gt;= 2010 &amp; Year &lt; 2020 ~ 2010, Year &gt;= 2020 ~ 2020))
+View(population_data)
+pop_us &lt;- population_data %&gt;% filter(Name == &quot;United States&quot;)
+by_ind3 &lt;- by_ind2 %&gt;% left_join(pop_us, join_by(decade == Year)) %&gt;% mutate(ia_gdp = IndGDP / `Resident Population` * (1-ir)) %&gt;% filter(Description != &quot;Private industries&quot;, President != &quot;Biden&quot;) %&gt;% mutate(President = factor(President, levels = c(&quot;Clinton&quot;, &quot;Obama&quot;, &quot;Bush&quot;, &quot;Trump&quot;)), president_party = case_when(President == &quot;Clinton&quot; | President == &quot;Obama&quot; ~ &quot;Democrat&quot;, President == &quot;Bush&quot; | President == &quot;Trump&quot; ~ &quot;Republican&quot;), years_in_data = case_when(President == &quot;Clinton&quot; ~ 3, President == &quot;Trump&quot; ~ 4, President == &quot;Bush&quot; | President == &quot;Obama&quot; ~ 8), gdp_per_year = ia_gdp / years_in_data)
+
+top_industries &lt;- by_ind3 %&gt;% group_by(President, Description, years_in_data) %&gt;% summarise(ia_gdp2 = sum(ia_gdp)) %&gt;% group_by(President) %&gt;%
+  slice_max(ia_gdp2, n=10)
+
+ggplot(top_industries, aes(x = President, y = ia_gdp2/years_in_data, fill = President)) + 
+  geom_col() + facet_wrap(~Description) + labs(y = &quot;Gross Domestic Product per Year&quot;, title = &quot;Top 10 Industries of Modern Presidents&quot;) + theme_bw()</code></pre>
+<p><img src="PresidentialEconomies_files/figure-html/unnamed-chunk-5-1.png" width="1920" /></p>
+<p>Across most of the top industries, however, the pattern is fairly
+constant. We see Clinton perform well, followed by Bush, then Trump,
+then Obama. This suggests that these large industries are very robust
+and aren’t terribly affect relative to other industries, only in
+accordance with the economy as a whole.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -11,7 +11,7 @@
 
 
 
-<title>Cache Nelson</title>
+<title>Age of Planes</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -30,6 +30,7 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
@@ -216,6 +217,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -245,8 +249,26 @@ $(document).ready(function () {
         <li>
   <a href="index.html">Home</a>
 </li>
-<li>
-  <a href="about.html">Analyses</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PresidentialEconomies.html">Modern Presidental Economies</a>
+    </li>
+    <li>
+      <a href="CarSell.html">Selling a Car</a>
+    </li>
+    <li>
+      <a href="WeatherAnaylsis.html">Predicting Weather</a>
+    </li>
+    <li>
+      <a href="AgeOfPlanes.html">Aging Planes</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -258,17 +280,65 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Cache Nelson</h1>
+
+<h1 class="title toc-ignore">Age of Planes</h1>
 
 </div>
 
 
-<p>I am Cache Nelson, a statistician driven by a desire to understand
-and gain insight into</p>
-<p>prevalent issues in education and finance.</p>
-<p><img align = "right" src="images/DSC_0805-01.jpg" width="319" /></p>
+<pre class="r"><code>library(nycflights13)
+library(tidyverse)
+
+df &lt;- left_join(flights, planes, by = &quot;tailnum&quot;, suffix = c(&quot;_flight&quot;, &quot;_plane&quot;))
+
+df1 &lt;- df %&gt;% mutate(age = year_flight - year_plane)
+df2 &lt;- df1 %&gt;% 
+  mutate(age_group = case_when(age &lt;= 10 ~ &quot;0-10&quot;, 
+         age &gt; 10 &amp; age &lt;=20 ~ &quot;11-20&quot;,
+         age &gt; 20 &amp; age &lt;= 30 ~ &quot;21-30&quot;, 
+         age &gt; 30 ~ &quot;&gt;30&quot;))
+
+df3 &lt;- df2 %&gt;% drop_na(dep_delay, age_group)</code></pre>
+<pre class="r"><code>ggplot(df3, aes(x = reorder(age_group, dep_delay), y = dep_delay)) +
+  geom_boxplot() + coord_cartesian(ylim = c(-5, 25)) + labs(x = &quot;Age of Plane&quot;, y = &quot;Departure Delay (min.)&quot;, title = &quot;Departure Delay of NYC Flights&quot;)</code></pre>
+<p><img src="AgeOfPlanes_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Its seems like as planes get older, the median departure delay goes
+down. The 75% percentile also goes down as the planes get older.
+Interesting as well is that the interquartile range goes down, meaning
+the older planes are more consistent in delay times.</p>
+<pre class="r"><code>df4 &lt;- left_join(df3, airlines, by = &quot;carrier&quot;)
+
+ggplot(df4, aes(x = reorder(name, age), y = age)) + 
+  geom_boxplot() + coord_flip() + theme_bw() + 
+  labs(x = &quot;Airline&quot;, y = &quot;Plane Age&quot;)</code></pre>
+<p><img src="AgeOfPlanes_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>It is difficult to really see a pattern here, but it is also
+difficult to classify or discern differences between airlines. Perhaps
+if another variable was utilized, we might find something more
+meaningful.</p>
+<pre class="r"><code>ggplot(df4, aes(x = age, y = seats)) + 
+  geom_point(aes(color = as.factor(engines))) + 
+  geom_segment(aes(x = 0, xend = 60, y = 150, yend = 150), lty = 2, color = &quot;skyblue&quot;) + 
+  geom_segment(aes(x = 30, xend = 30, y = 0, yend = 450), color = &quot;skyblue&quot;, lty = 2) +
+  labs(x = &quot;Age of Plane (as of 2013)&quot;, y = &quot;# of Seats on Plane&quot;, title =  &quot;NYC Flight Age vs. Seats Correlation&quot;) + theme_bw() + guides(color = guide_legend(title = &quot;Number of Engines&quot;))</code></pre>
+<p><img src="AgeOfPlanes_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>It appears that planes with a higher capacity (specifically greater
+than 150) only became commonplace about 30 years before 2013. Planes
+older than that had a capacity of 150 or less. In addition, we see that
+planes older than 30 more frequently had 1 engine but also had a 4
+engine plane present, being the oldest. Two engine planes became much
+more frequent about 30 years before 2013 also. This is an interesting
+relationship. Was there new regulations or something significant that
+happened around 1983 that caused a change in the design of planes?</p>
 
 
 
@@ -303,6 +373,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2024-01-27" />
+
+<title>Car Analysis</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Cache Nelson</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PresidentialEconomies.html">Modern Presidental Economies</a>
+    </li>
+    <li>
+      <a href="CarSell.html">Selling a Car</a>
+    </li>
+    <li>
+      <a href="WeatherAnaylsis.html">Predicting Weather</a>
+    </li>
+    <li>
+      <a href="AgeOfPlanes.html">Aging Planes</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Car Analysis</h1>
+<h4 class="date">2024-01-27</h4>
+
+</div>
+
+
+<div id="results" class="section level2 tabset">
+<h2 class="tabset">Results</h2>
+<pre class="r"><code>library(tidyverse)
+library(car)
+library(pander)
+cs &lt;- read_csv(&quot;~/Statistics-Notebook-master/Data/carsell.csv&quot;)</code></pre>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<pre class="r"><code>ggplot(data = cs, mapping = aes(x = Mileage, y = Price)) + 
+  geom_point(color = &quot;skyblue&quot;) + 
+  stat_function(fun = function(x) (bs[1] + bs[2] * x)^2, color = &quot;orange&quot;) +
+  geom_point(data = bought, mapping = aes(x = Mileage, y = Price), color = &quot;red&quot;, pch = 8) + 
+  geom_point(data = sell, mapping = aes(x = Mileage, y = Price), color = &quot;red&quot;, pch = 8) + 
+  annotate(geom = &quot;text&quot;, x = 80000, y = 10000, label = &quot;Bought here&quot;) + 
+  annotate(geom = &quot;text&quot;, x = 165000, y = 7500, label = &quot;Sell here&quot;) +
+  geom_segment(x = 99980, xend = 200000, y = 10000, yend = 6496.36, color = &quot;red&quot;) + 
+  theme_bw() + labs(title = &quot;Correlation of Selling Price and Mileage of 2011 Honda Accord LX&quot;) +
+  geom_segment(aes(x = 99980, xend = 99980, y = (91.9222)^2, yend = (121.6137)^2), color = &quot;green&quot;, lwd = 3, alpha = 0.01)</code></pre>
+<p><img src="CarSell_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>From the data, we see that the transformed model fits the data
+reasonably well. The car was bought well below the predicted price or
+average price. When we look at the prediction interval, however, our
+buying price still falls within it. Below shows the prediction interval
+given that the car has a mileage of 99980.</p>
+<pre class="r"><code>pander(predict(cs.lm.sqrt, data.frame(Mileage = 99980), interval = &quot;prediction&quot;))</code></pre>
+<table style="width:33%;">
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">fit</th>
+<th align="center">lwr</th>
+<th align="center">upr</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">106.8</td>
+<td align="center">91.92</td>
+<td align="center">121.6</td>
+</tr>
+</tbody>
+</table>
+<p>We plan on selling the car at 200000 miles. If we sell the car at
+this mileage at the average price, this would then mean that on average
+we are losing 3 cents for every mile we drive the car. For every 100
+miles, that would be $3.50. For 1000 miles, this would be $35. However,
+the further car is driven, the less we lose money for driving the car.
+We then can drive the car more without losing value and theoretically
+sell the car later. However, this isn’t practical, so 200000 miles was
+decided upon (see Appendix for details).</p>
+</div>
+<div id="appendix" class="section level3">
+<h3>Appendix</h3>
+<p>Because cars generally don’t follow a linear trend in depreciating
+value as the miles increase, it would be in our best interest to
+transform the data such that we find a non-linear model. We find the
+best transformation using the BoxCox method:</p>
+<pre class="r"><code>boxCox(cs.lm) </code></pre>
+<p><img src="CarSell_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>As we can see, the log and square root transformations are both
+suggested. For the sake of novelty, we used the square root
+transformation.</p>
+<p>The model of the regression is then given as follows: <span
+class="math inline">\(\underbrace{\hat{Y\prime_i}}_{\text{Predicted
+Price}} = 132.9 - .00026\underbrace{X_i}_{\text{Mileage}}\)</span> Where
+<span class="math inline">\(Y\prime_i\)</span> is a transformation.</p>
+<p>We then replace <span class="math inline">\(\hat{Y\prime_i}\)</span>
+with <span class="math inline">\(\sqrt{\hat{Y_i}}\)</span>, which was
+our transformation of choice. Solving for <span
+class="math inline">\(\hat{Y_i}\)</span> then gives: <span
+class="math inline">\(\hat{Y_i} = (132.9 - .00026X_i)^2\)</span>.</p>
+<p>To find the best time to sell the car, we want to find when we get
+the best price for the mileage. Theoretically, this would be best after
+many miles, where the slope our model <span
+class="math inline">\(\hat{Y_i} = (132.9 - .00026X_i)^2\)</span>
+approaches 0, where price doesn’t diminish, but the mileage keeps going
+up. We can find when the slope reaches 0 by taking the derivative of our
+function which is given by <span class="math inline">\(y = 0.000000135x
+- 0.069108\)</span>. We then find when this function reaches zero, or in
+other words, we lose no money by continuing to drive. This is as <span
+class="math inline">\(x = 511154\)</span>, or 511154 miles. However, it
+is unusual to drive a car that many miles. Therefore, it would be best
+to sell it as late as reasonably possible. I would sell it at 200000
+where someone would be inclined to buy it as it still has some “life”
+left in it.</p>
+<div id="hypotheses" class="section level4">
+<h4>Hypotheses</h4>
+<p>To investigate if there is a significant relationship between the
+mileage of a car and the price, we will test the slope of the model to
+see if the car’s value changes as it is driven. A significance level of
+<span class="math inline">\(\alpha = 0.05\)</span> will be used.</p>
+<p><span class="math inline">\(H_0: \beta_1 = 0\)</span> <span
+class="math inline">\(H_a: \beta_1 \neq 0\)</span></p>
+</div>
+<div id="model-significance" class="section level4">
+<h4>Model Significance</h4>
+<p>For the test, we will be test the slope of the model.A significance
+level of <span class="math inline">\(\alpha = 0.05\)</span> will be
+used.</p>
+<pre class="r"><code>pander(summary(cs.lm.sqrt))</code></pre>
+<table style="width:92%;">
+<colgroup>
+<col width="25%" />
+<col width="18%" />
+<col width="18%" />
+<col width="13%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Estimate</th>
+<th align="center">Std. Error</th>
+<th align="center">t value</th>
+<th align="center">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>(Intercept)</strong></td>
+<td align="center">132.9</td>
+<td align="center">2.677</td>
+<td align="center">49.66</td>
+<td align="center">1.433e-43</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Mileage</strong></td>
+<td align="center">-0.0002615</td>
+<td align="center">1.862e-05</td>
+<td align="center">-14.05</td>
+<td align="center">8.337e-19</td>
+</tr>
+</tbody>
+</table>
+<table style="width:86%;">
+<caption>Fitting linear model: sqrt(Price) ~ Mileage</caption>
+<colgroup>
+<col width="20%" />
+<col width="30%" />
+<col width="11%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Observations</th>
+<th align="center">Residual Std. Error</th>
+<th align="center"><span class="math inline">\(R^2\)</span></th>
+<th align="center">Adjusted <span
+class="math inline">\(R^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">51</td>
+<td align="center">7.291</td>
+<td align="center">0.801</td>
+<td align="center">0.797</td>
+</tr>
+</tbody>
+</table>
+<p>As we can see, the slope is significant, with a p-value of <span
+class="math inline">\(&lt; 0.05\)</span>. We also see that we have a
+strong <span class="math inline">\(R^2\)</span> of 0.801. This means
+that a large portion of variance in the data can be explained by the
+model.</p>
+</div>
+<div id="diagnostics" class="section level4">
+<h4>Diagnostics</h4>
+<p>To determine the validity of the model, we first check for linearity
+and constant variance. We see that the residuals have no apparent
+pattern and variance appears to be constant. We can then say that these
+assumptions have been met.</p>
+<p>We then check the assumption that error terms are normally
+distributed. Since all the dots are close to the line and all but one
+falling outside of the shaded region, we will say that the assumption of
+normal error terms has been met.</p>
+<p>Finally, we check independent error terms. There seems to be no
+apparent pattern in the data, so we say that this assumption has been
+met. Thus, all assumptions have been met and we can take the results of
+the analysis to be valid.</p>
+<pre class="r"><code>par(mfrow = c(1,3))
+plot(cs.lm.sqrt, which = 1)
+car::qqPlot(cs.lm.sqrt)</code></pre>
+<pre><code>## [1] 31 47</code></pre>
+<pre class="r"><code>plot(cs.lm.sqrt$residuals)</code></pre>
+<p><img src="CarSell_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
