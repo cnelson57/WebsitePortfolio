@@ -245,8 +245,26 @@ $(document).ready(function () {
         <li>
   <a href="index.html">Home</a>
 </li>
-<li>
-  <a href="about.html">Analyses</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PresidentialEconomies.html">Modern Presidental Economies</a>
+    </li>
+    <li>
+      <a href="CarSell.html">Selling a Car</a>
+    </li>
+    <li>
+      <a href="WeatherAnalysis.html">Predicting Weather</a>
+    </li>
+    <li>
+      <a href="AgeOfPlanes.html">Aging Planes</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -268,7 +286,8 @@ $(document).ready(function () {
 <p>Here you will find various analyses covering various topics and
 disciplines, generally using tools such as dplyr, tidyr, and ggplot to
 perform hypothesis tests and provide insightful visuals to investigate
-the underlying cause of observed phenomena.</p>
+the underlying cause of observed phenomena.Some were created using
+RMarkdown others Quarto files.</p>
 
 
 
